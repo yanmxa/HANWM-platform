@@ -15,7 +15,7 @@ public class Bootstrap {
 	public static void main(String[] args) {
 
 		try {
-//			List<Map<String, String>> parameters = StructuralProperties.struct("simulation");
+			List<Map<String, String>> parameters = StructuralProperties.struct("simulation");
 //			for(Map<String, String> params : parameters) {
 //				Runnable myRunnable = new Runnable(){
 //				   public void run(){
