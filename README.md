@@ -1,7 +1,5 @@
 # HANWPlatform : Human and Nature Water Management Platform
-----------------------
-----------------------
-## especially for agent based modelling
+## * especially for agent based modelling *
 ---------------------------------------
 >## main dependencies
         maven *
