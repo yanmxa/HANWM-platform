@@ -1,9 +1,10 @@
-# ***HANWPlatform : Human and Nature Water Management Platform***
+# ***HANWPlatform : Human and Nature Water Management Platform (especially for agent 
+based modelling)***
 
-## main dependenciesM
+## main dependencies
         maven *
         mysql ^5.0
-        java =1.8    
+        java 1.8    
 ## How to use ?
 
 ### Configuration your project
