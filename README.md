@@ -1,6 +1,5 @@
-# ***HANWPlatform : Human and Nature Water Management Platform (especially for agent 
-based modelling)***
-
+yyp# ***HANWPlatform : Human and Nature Water Management Platform***
+## especially for agent based modelling
 ## main dependencies
         maven *
         mysql ^5.0
