@@ -29,6 +29,9 @@ public class ConfigurationLoader {
 		return properties;
 	}
 	
+	public static Properties loadConfProperties(String fileName) {
+		return loadProperties(configurationDir+fileName);
+	}
 	
 	/**
 	 * get one config property from a file  eg: config("filename.property.property.property");
@@ -67,16 +70,18 @@ public class ConfigurationLoader {
 	public static Map<String, String> configs(String str) {
 		Map<String, String> confs = new HashMap<String, String>();
 		
-		int index = str.indexOf('.');
+//		int index = str.indexOf('.');
+		int index = str.lastIndexOf('.');
 		String fileName = str;
 		String propertyName = null;
 		
 		if(index > 0) {
-			fileName = str.substring(0, index);
-			propertyName = str.substring(index+1);
+//			fileName = str.substring(0, index);
+//			propertyName = str.substring(index+1);
+			propertyName = str.substring(str.lastIndexOf('.') + 1);
 		}
 		
-		Properties properties = loadProperties(configurationDir+fileName+tail);
+		Properties properties = loadProperties(configurationDir+fileName);
 		Enumeration<Object> keys = properties.keys();
 
 		if(propertyName != null) {
@@ -95,8 +100,15 @@ public class ConfigurationLoader {
 							e.printStackTrace();
 						}
 					}
-					
+				} else {
+					try {
+						confs.put(key, new String(properties.getProperty(key).getBytes("ISO-8859-1"), charset));
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				
 			}
 		}else {
 			while(keys.hasMoreElements()) {

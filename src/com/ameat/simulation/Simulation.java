@@ -30,7 +30,8 @@ public class Simulation {
 	
 	public void run() {
 		// record this time simulation record to database
-		this.recordSimulation();
+//		this.recordSimulation();
+		this.recordResidentSimulation();
 		
 		// simulation start, components init;
 		this.simulationStart();
@@ -49,7 +50,7 @@ public class Simulation {
 					component.anchorCompute();
 				}
 				this.timeController.nextAnchorTime();
-				this.timeController.nextYearSart();
+				this.timeController.nextYearStart();
 				logger.info(this.timeController.getCurrentTime()+"  computions starting !");
 				continue;
 			}
@@ -60,6 +61,7 @@ public class Simulation {
 		this.simulationEnd();
 	}
 	
+
 	private void simulationEnd() {
 		for(Integer i : this.sequence) {
 			CompInterface component = this.components.get(""+i);
@@ -147,4 +149,31 @@ public class Simulation {
 
 	}
 	
+	private void recordResidentSimulation() {
+		Table sim = new Table("ResidentSimulation");
+		Map<String, Object> record = new HashMap<String, Object>();
+		StringBuffer comps = new StringBuffer();
+		
+		record.put("thread_name", Thread.currentThread().getName());
+		record.put("start_time", this.parameters.get("starttime"));
+		record.put("end_time", this.parameters.get("endtime"));
+		record.put("time_step", this.parameters.get("timestep"));
+		record.put("anchor_time", this.parameters.get("anchortime"));
+		record.put("radius", this.parameters.get("radius"));
+		record.put("alpha", this.parameters.get("alpha"));
+		record.put("beta", this.parameters.get("beta"));
+		this.components.forEach((k, v) -> {
+			comps.append(v.toString().split("@")[0]+":"+k+";");
+		});
+		record.put("components", comps.toString());
+	
+		record.put("faucet", this.parameters.get("device.faucet"));
+		record.put("toilet", this.parameters.get("device.toilet"));
+		record.put("shower", this.parameters.get("device.shower"));
+		record.put("laundry", this.parameters.get("device.laundry"));
+		record.put("resident_number", this.parameters.get("resident_number"));
+		record.put("consume", this.parameters.get("consume"));
+		
+		sim.insertReturnKey(record);
+	}
 }

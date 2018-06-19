@@ -107,10 +107,6 @@ public class CountrySchedule{
 	}
 	
 	
-	
-	
-	
-	
 	/**
 	 * 根据farmer_init表生成农民对象,并且确定是否有用水限制
 	 * @return  Map<String, List<Farmer>>     location : List<Farmer> 

@@ -5,6 +5,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import static com.ameat.utils.ConfigurationLoader.config;
 
+import java.util.Map;
+
 
 public class TimeController {
 
@@ -15,11 +17,11 @@ public class TimeController {
 	private String stepUnit;
 	private DateTime anchorTime;
 	
-	public TimeController() {
-		String startStr = config("simulation.starttime");
-		String endStr = config("simulation.endtime");
-		String anchorStr = config("simulation.anchortime");
-		String[] stepStr = config("simulation.timestep").split("-");
+	public TimeController(Map<String, String> params) {
+		String startStr = params.get("starttime");
+		String endStr = params.get("endtime");
+		String anchorStr = params.get("anchortime");
+		String[] stepStr = params.get("timestep").split("-");
 		
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");  
 		this.startTime = DateTime.parse(startStr, formatter);  
@@ -29,19 +31,21 @@ public class TimeController {
 		this.currentTime = this.startTime;
 		this.anchorTime = DateTime.parse(anchorStr, formatter);
 	}
-	
+
 	/**
 	 * @return DateTime : Current Time plus a Time Step. The time step could be modified
 	 */
 	public void nextStepTime() {
-//		if (this.stepUnit.equals("day"))
+		if (this.stepUnit.equals("day"))
 			this.currentTime = this.currentTime.plusDays(this.stepValue);
+		if (this.stepUnit.equals("year"))
+			this.currentTime = this.currentTime.plusYears(this.stepValue);
 //		if (this.stepUnit.equals("month")) this.currentTime = this.currentTime.plusMonths(this.stepValue);
 //		if (this.stepUnit.equals("hour")) this.currentTime = this.currentTime.plusHours(this.stepValue);
 //		return this.currentTime;
 	}
 	
-	public void nextYearSart() {
+	public void nextYearStart() {
 		while(this.startTime.getYear() <= this.currentTime.getYear()) this.startTime = this.startTime.plusYears(1);
 		this.currentTime = this.startTime;
 	}
