@@ -40,7 +40,7 @@ public class ImportNoaaData {
 
 				for(int i=0; i<stationids.size(); i++) {
 					for (int year = 2005; year<=2018; year++) {
-						File file = new File(dataPath+stationids.get(i)+"-"+wbanids.get(i)+"-"+year+".op");
+						File file = new File(dataPath + stationids.get(i)+"-"+wbanids.get(i)+"-"+year+".op");
 						if(!file.exists()) {
 							continue;
 						}else {
