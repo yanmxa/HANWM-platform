@@ -14,8 +14,8 @@
       configuration configuration/location.properties
 
 >>### Run database migrations:
-        mvn db-migrator:create         
-        mvn db-migrator:migrate
+        mvn db-migrator:create        - create database hanwu       
+        mvn db-migrator:migrate       - create tables
           
 >>### Build program:
         mvn clean install

@@ -30,8 +30,9 @@ public class Simulation {
 	
 	public void run() {
 		// record this time simulation record to database
-//		this.recordSimulation();
-		this.recordResidentSimulation();
+		// todo 目前农业灌溉用调用的是recordSimulation(), 城市居民用水调用的是recordResidentSimulation(), 可以考虑将其改为配置项
+		this.recordSimulation();
+//		this.recordResidentSimulation();
 		
 		// simulation start, components init;
 		this.simulationStart();

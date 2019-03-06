@@ -56,7 +56,7 @@ public class Location {
 
 
 	public Location(TimeController tc, String englishName) {
-		Map<String, String> area = configs("location." + englishName);
+		Map<String, String> area = configs("location.properties", englishName);
 		final ScriptEngine jse = new ScriptEngineManager().getEngineByName("JavaScript");
 		this.timeController = tc;
 		this.englishName = englishName;

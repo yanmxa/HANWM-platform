@@ -279,9 +279,15 @@ public class Table{
 	 * @param conditions
 	 */
 	public void export(String fileName, String sheetName, String ... conditions) {
-		int perpage = Integer.parseInt(ConfigurationLoader.config("application.default_perpage"));
-		int page = Integer.parseInt(ConfigurationLoader.config("application.default_page"));
-		String orderBy = ConfigurationLoader.config("application.default_order_by");
+//		default_perpage = 500
+//		default_page = 1
+//		default_order_by = id asc
+//		int perpage = Integer.parseInt(ConfigurationLoader.config("application.default_perpage"));
+//		int page = Integer.parseInt(ConfigurationLoader.config("application.default_page"));
+//		String orderBy = ConfigurationLoader.config("application.default_order_by");
+		int perpage = 500;
+		int page = 1;
+		String orderBy = "id asc";
 		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("conditions", conditions);
 		args.put("perpage", perpage);
@@ -294,7 +300,6 @@ public class Table{
 	/**
 	 *  Get table columns' comments  eg:
 	 *  		{date=日期, updated_at=更新时间, county=县级区域, degree=温度值, created_at=创建时间, id=}
-	 * @param tableName
 	 * @return
 	 */
 	public Map<String, Object> getComments() {

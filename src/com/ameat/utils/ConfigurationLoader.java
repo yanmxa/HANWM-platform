@@ -70,18 +70,15 @@ public class ConfigurationLoader {
 	public static Map<String, String> configs(String str) {
 		Map<String, String> confs = new HashMap<String, String>();
 		
-//		int index = str.indexOf('.');
 		int index = str.lastIndexOf('.');
 		String fileName = str;
 		String propertyName = null;
 		
 		if(index > 0) {
-//			fileName = str.substring(0, index);
-//			propertyName = str.substring(index+1);
 			propertyName = str.substring(str.lastIndexOf('.') + 1);
 		}
 		
-		Properties properties = loadProperties(configurationDir+fileName);
+		Properties properties = loadProperties(configurationDir + fileName);
 		Enumeration<Object> keys = properties.keys();
 
 		if(propertyName != null) {
@@ -124,6 +121,57 @@ public class ConfigurationLoader {
 		
 		return confs;
 	}
-	
-	
+
+	/**
+	 * get all of the configs under a namespace eg: configs("database.properties" ,"development"),
+	 * this will return all the database configs under development namespace without the "development" prefix;
+	 * @return Map<String, String>
+	 */
+	public static Map<String, String> configs(String filePath, String prefix) {
+		Map<String, String> confs = new HashMap<String, String>();
+
+		String fileName = filePath;
+
+		Properties properties = loadProperties(configurationDir + fileName);
+		Enumeration<Object> keys = properties.keys();
+
+		if(prefix != null) {
+			while(keys.hasMoreElements()) {
+				String key = keys.nextElement().toString();
+
+				if(key.startsWith(prefix)) {
+					int sindex = key.indexOf('.');
+					String sKey = "";
+					if(sindex > 0) {
+						sKey = key.substring(key.indexOf('.')+1);
+						try {
+							confs.put(sKey, new String(properties.getProperty(key).getBytes("ISO-8859-1"), charset));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}
+				} else {
+					try {
+						confs.put(key, new String(properties.getProperty(key).getBytes("ISO-8859-1"), charset));
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
+		}else {
+			while(keys.hasMoreElements()) {
+				String key = keys.nextElement().toString();
+				try {
+					confs.put(key, new String(properties.getProperty(key).getBytes("ISO-8859-1"), charset));
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return confs;
+	}
 }
