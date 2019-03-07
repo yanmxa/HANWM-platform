@@ -90,8 +90,11 @@ Temporary Items
 
 ## Plugin-specific files:
 
-# IntelliJ
-/out/
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
