@@ -11,7 +11,7 @@ import com.ameat.simulation.TimeController;
 import com.ameat.tables.Table;
 import com.ameat.utils.Generator;
 
-public class CountryImpl implements CompInterface{
+public class CountryImpl implements CompInterface {
 	
 	private Logger logger = Logger.getLogger(this.getClass());
 	private TimeController tc;
