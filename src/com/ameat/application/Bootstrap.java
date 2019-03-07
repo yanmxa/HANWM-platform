@@ -30,8 +30,8 @@ public class Bootstrap {
 //		start();
 //		new Table("ResidentResult").export();
 //		new Table("ResidentSimulation").export();
-//		clearTable();
-		exportTable();
+		clearTable();
+//		exportTable();
 //		new Table("RiverFlow").export();
 		DB.closeAllConnections();
 	}
