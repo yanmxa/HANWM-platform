@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS `farmer_anchors`;
 
 CREATE TABLE `farmer_anchors` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `sim_id` int(11) unsigned DEFAULT NULL COMMENT '模拟编号',
   `farmer_id` int(11) unsigned DEFAULT NULL COMMENT '农民序号',
   `time` datetime DEFAULT NULL COMMENT '模拟时间',
   `previous_mu` float(6, 2) DEFAULT NULL COMMENT '上一年旱地占比',

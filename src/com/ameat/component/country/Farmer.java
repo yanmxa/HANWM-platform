@@ -132,7 +132,8 @@ public class Farmer {
 		
 		Table table = new Table("FarmerAnchor");
 		Map<String, Object> record = new HashMap<String, Object>();
-		
+
+		record.put("sim_id", this.tc.getSimulationId());
 		record.put("time", this.tc.getCurrentTime().toString("yyyy-MM-dd"));
 		record.put("farmer_id", this.farmer_id);
 		record.put("previous_mu", this.previousMu);
