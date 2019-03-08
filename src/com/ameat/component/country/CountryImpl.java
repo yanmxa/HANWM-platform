@@ -20,7 +20,7 @@ public class CountryImpl implements CompInterface {
 	@Override
 	public void init(TimeController timeController, Map<String, ComunicationInterface> comunications) {
 		this.tc = timeController;
-		this.generateFarmerInfos();
+		this.generateFarmerInfos(this.tc.getSimulationId());
 		this.countrySchedule = new CountrySchedule(timeController, comunications);
 		logger.info("Init time : "+this.tc.getCurrentTime() + "component = Country is inited !");
 	}
@@ -54,10 +54,9 @@ public class CountryImpl implements CompInterface {
 	/**
 	 * 根据simulation 表中的记录生成农民初始化市所需要的参数
 	 */
-	private static void generateFarmerInfos() {
+	private static void generateFarmerInfos(int simulationId) {
 		long threadId = Thread.currentThread().getId();
-		Map<String, Object> simulation = new Table("Simulation").getOne("id desc", "thread_id = "+ threadId);
-		int sim_id = Integer.valueOf(simulation.get("id").toString());
+		Map<String, Object> simulation = new Table("Simulation").getOne("id desc", "id = "+ simulationId);
 		Table FarmerInit = new Table("FarmerInit");
 		Map<String, String> farmerNumbers = colonToMap(simulation.get("farmer_number").toString());
 		farmerNumbers.forEach((k, v) -> {
@@ -72,7 +71,7 @@ public class CountryImpl implements CompInterface {
 				Double waterPermit = Double.valueOf(simulation.get("water_limit").toString()) < 0.0
 						? -1: getWaterPermit(simulation, Double.valueOf(cropAreas.get(k)));
 					
-				record.put("sim_id", sim_id);
+				record.put("sim_id", simulationId);
 				record.put("location", k);
 				record.put("farmer_no", i);
 				record.put("mu", mu);

@@ -158,12 +158,12 @@ public class Farmer {
 	
 	/**
 	 * 农民每年会根据年尾总结情况进行策略调整(包含下一年所有变量的初始化)
-	 * @param farmers
 	 */
 	protected void updateStrategy(Map<String, List<Farmer>> totalFarmers) {
 		double incomePerArea = this.cropIncome / this.cropArea; 
 		List<Farmer> farmers = totalFarmers.get(this.locationStr);
 		int r = (int) this.radius;
+		if (r < 1) r = 1;
 		
 		// 对高出的差价敏感
 		int count1 = 0;
@@ -208,7 +208,6 @@ public class Farmer {
 	
 	/**
 	 * 农民根据气象数据更新每天的数据
-	 * @param ET
 	 * @param isWaterLimited
 	 */
 	protected void dayByDay(Location meteInfo, boolean isWaterLimited) {
@@ -325,7 +324,6 @@ public class Farmer {
 
 /**
  * 没有水分胁迫的情况下，农民每天的策略
- * @param ET
  */
 	protected void daysWithoutWaterStress(Location meteInfo) {
 		

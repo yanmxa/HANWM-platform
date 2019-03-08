@@ -28,12 +28,13 @@ public class Simulation {
 		this.register();
 	}
 	
-	public void run() {
+	public int run() {
 		// record this time simulation record to database
 		// todo 目前农业灌溉用调用的是recordSimulation(), 城市居民用水调用的是recordResidentSimulation(), 可以考虑将其改为配置项
-		this.recordSimulation();
+		int simId = this.recordSimulation();
+		this.timeController.setSimulationId(simId);
 //		this.recordResidentSimulation();
-		
+
 		// simulation start, components init;
 		this.simulationStart();
 		 
@@ -60,6 +61,8 @@ public class Simulation {
 		
 		// simulation end, components finished
 		this.simulationEnd();
+
+		return simId;
 	}
 	
 
@@ -113,7 +116,7 @@ public class Simulation {
 		Collections.sort(this.sequence);
 	}
 	
-	private void recordSimulation() {
+	private int recordSimulation() {
 		Table sim = new Table("Simulation");
 		Map<String, Object> record = new HashMap<String, Object>();
 		StringBuffer comps = new StringBuffer();
@@ -146,7 +149,7 @@ public class Simulation {
 		record.put("farmer_number", farmer_numbers.toString());
 		record.put("water_limit", this.parameters.get("water_limit"));
 		
-		sim.insertReturnKey(record);
+		return sim.insertReturnKey(record);
 
 	}
 	

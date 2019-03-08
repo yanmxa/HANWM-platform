@@ -16,13 +16,16 @@ import org.json.JSONObject;
 
 import com.ameat.tables.Table;
 
+/***
+ * 导入站点及气象信息，即 stations 和 meteorologies 表， 现在stations表中的sql脚本已有，只需要对 气象水文表 进行导入即可。
+ */
 public class ImportNoaaData {
-	private final static String stationPath = "/Users/zmeat/gsod/isd-china.txt";
-	private final static String dataPath = "/Users/zmeat/aa/";
+	private final static String stationPath = "/Users/yanmeng/Downloads/noaa2005_2018/isd-china.txt";
+	private final static String dataPath = "/Users/yanmeng/Downloads/noaa2005_2018/suffixWithOp/";
 	private final static DateTimeFormatter format = DateTimeFormat.forPattern("yyyyMMdd");
 
 	public static void main(String[] args) {
-		importStation();
+//		importStation();
 		importMeteorologies();
 	}
 
@@ -126,6 +129,12 @@ public class ImportNoaaData {
 	}
 
 
+	/**
+	 * 根据经纬度爬取所属行政区域信息
+	 * @param lat
+	 * @param lon
+	 * @return
+	 */
 	private static String[] getLocation(double lat, double lon) {
 		String urlString = "http://gc.ditu.aliyun.com/regeocoding?l="+lat+","+lon+"&type=010";
 		String res = "";

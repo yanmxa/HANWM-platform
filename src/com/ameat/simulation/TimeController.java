@@ -16,7 +16,8 @@ public class TimeController {
 	private int stepValue;
 	private String stepUnit;
 	private DateTime anchorTime;
-	
+	private int simulationId;
+
 	public TimeController(Map<String, String> params) {
 		String startStr = params.get("starttime");
 		String endStr = params.get("endtime");
@@ -69,5 +70,12 @@ public class TimeController {
 	public DateTime getAnchorTime() {
 		return this.anchorTime;
 	}
-	
+
+	public int getSimulationId() {
+		return simulationId;
+	}
+
+	public void setSimulationId(int simulationId) {
+		this.simulationId = simulationId;
+	}
 }

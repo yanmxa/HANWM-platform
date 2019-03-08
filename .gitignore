@@ -274,6 +274,7 @@ project/plugins/project/
 .worksheet
 
 .idea/
+resource/data/*
 
 
 

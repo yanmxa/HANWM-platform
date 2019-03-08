@@ -31,7 +31,7 @@ public class Generator {
 		Random random = new Random(100);
 		List<Double> result = new ArrayList<Double>();
 		for(int i=0; i<number; i++) {
-			result.add(cv*mean*random.nextGaussian() + mean);
+			result.add(cv * mean * random.nextGaussian() + mean);
 		}
 		return result;
 	}

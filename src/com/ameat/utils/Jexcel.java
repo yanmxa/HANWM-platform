@@ -45,7 +45,7 @@ public class Jexcel {
 
     /**
      * Read Excel File And Return a List
-     * @param file: *.xls, *.xlsx
+     * @param filePath: *.xls, *.xlsx
      * @param sheetIndex: which sheet would be read
      * @return List<String[]>
      */
@@ -344,7 +344,6 @@ public class Jexcel {
         CellStyle defaultStyle = createDefaultCellStyle(workbook);
         CellStyle floatStyle = createFloatCellStyle(workbook);
         int lastRowNum = sheet.getLastRowNum();
-        System.out.println("lastRowNum: "+ lastRowNum);
 
         for(int i=1; i<=datas.size(); i++) {
             Row bodyRow = createRow(sheet, lastRowNum+i);

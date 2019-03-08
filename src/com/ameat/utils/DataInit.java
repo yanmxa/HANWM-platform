@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.javalite.activejdbc.DB;
 
 /**
- * 将模拟需要的降雨、潮白河流量以、气象监测点位置信息更新、日平均气温数据迁移至数据库
+ * 将模拟需要的降雨、潮白河流量以、气象监测点位置信息、气象水文信息数据迁移至数据库
  * created by zhangjunwei 2017/11
  */
 public class DataInit {

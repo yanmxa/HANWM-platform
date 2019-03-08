@@ -8,9 +8,11 @@ import com.ameat.simulation.TimeController;
 import com.ameat.tables.Table;
 import com.ameat.utils.StructuralProperties;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,43 +29,61 @@ public class Bootstrap {
 	static volatile int taskCount = 0;
 
 	public static void main(String[] args) {
-//		start();
+		engine();
 //		new Table("ResidentResult").export();
 //		new Table("ResidentSimulation").export();
-		clearTable();
+//		clearTable();
 //		exportTable();
 //		new Table("RiverFlow").export();
 		DB.closeAllConnections();
 	}
 
 
-	public static void start() {
-		ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+	public static void engine() {
+	    int engineNumber = 4;
+		ExecutorService executorService = EngineFactory.fixedThreadPool(engineNumber);
+
 
 		Properties application = ConfigurationLoader.loadConfProperties("application.properties");
 		String simulationFile = application.getProperty("simulationpath");
 		List<Map<String, String>> parameters = StructuralProperties.struct(simulationFile);
-
+		final CountDownLatch latch = new CountDownLatch(parameters.size());
 		for(Map<String, String> params : parameters) {
 			Runnable myRunnable = new Runnable(){
 			   public void run(){
-				    taskCount++;
-				    Thread.currentThread().setName(""+taskCount);
-				    System.out.println(" >> Thread : " + Thread.currentThread().getName() + " is Running !");
-				    System.out.println("    > params : " + params);
-					TimeController timeController = new TimeController(params);
-					Simulation simulation = new Simulation(timeController, params);
-					simulation.run();
-				    System.out.println(" >> Thread : " + Thread.currentThread().getName() + " is over !");
+			        try {
+                        System.out.println("-------------------------------------------------------------------");
+                        taskCount++;
+                        Thread.currentThread().setName(""+taskCount);
+                        System.out.println(" >> thread task : " + Thread.currentThread().getName() + " is Running !");
+                        System.out.println("    > params : " + params);
+                        TimeController timeController = new TimeController(params);
+                        Simulation simulation = new Simulation(timeController, params);
+                        int simulationId = simulation.run();
+                        System.out.println(" >> thread task : " + Thread.currentThread().getName() + " - simulationId "+ simulationId +" is over !");
+				    } catch (Exception e) {
+                        System.out.println(" ======>>>>>> thread task : " + Thread.currentThread().getName() + " exception !");
+                        System.out.println(" ======>>>>>> params : " + params);
+                        e.printStackTrace();
+                    } finally {
+			            latch.countDown();
+                    }
 			   }
 			};
-			singleThreadExecutor.execute(myRunnable);
+			executorService.execute(myRunnable);
 		}
-	}
+
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	
 	
 	public static void clearTable(){
+		System.out.print(" clear tables.");
 		new Table("FarmerTrace").delete();
 		new Table("FarmerAnchor").delete();
 		new Table("FarmerInit").delete();
@@ -72,6 +92,7 @@ public class Bootstrap {
 	}
 
 	public static void exportTable() {
+		System.out.print(" export data to excel.");
 		new Table("FarmerTrace").export();
 		new Table("FarmerAnchor").export();
 		new Table("FarmerInit").export();
