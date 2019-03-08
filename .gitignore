@@ -274,7 +274,8 @@ project/plugins/project/
 .worksheet
 
 .idea/
-resource/data/*
+resource/data/*.sql
+resource/export/*.xlsx
 
 
 
