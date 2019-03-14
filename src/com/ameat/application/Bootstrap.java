@@ -8,13 +8,11 @@ import com.ameat.simulation.TimeController;
 import com.ameat.tables.Table;
 import com.ameat.utils.StructuralProperties;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 程序主入口：
@@ -29,7 +27,7 @@ public class Bootstrap {
 	static volatile int taskCount = 0;
 
 	public static void main(String[] args) {
-		engine();
+		engine(4);
 //		new Table("ResidentResult").export();
 //		new Table("ResidentSimulation").export();
 //		clearTable();
@@ -39,20 +37,17 @@ public class Bootstrap {
 	}
 
 
-	public static void engine() {
-	    int engineNumber = 4;
+	public static void engine(int engineNumber) {
 		ExecutorService executorService = EngineFactory.fixedThreadPool(engineNumber);
-
 
 		Properties application = ConfigurationLoader.loadConfProperties("application.properties");
 		String simulationFile = application.getProperty("simulationpath");
 		List<Map<String, String>> parameters = StructuralProperties.struct(simulationFile);
 		final CountDownLatch latch = new CountDownLatch(parameters.size());
-		for(Map<String, String> params : parameters) {
+		for(final Map<String, String> params : parameters) {
 			Runnable myRunnable = new Runnable(){
 			   public void run(){
 			        try {
-                        System.out.println("-------------------------------------------------------------------");
                         taskCount++;
                         Thread.currentThread().setName(""+taskCount);
                         System.out.println(" >> thread task : " + Thread.currentThread().getName() + " is Running !");
@@ -72,7 +67,6 @@ public class Bootstrap {
 			};
 			executorService.execute(myRunnable);
 		}
-
         try {
             latch.await();
         } catch (InterruptedException e) {
